@@ -1,5 +1,6 @@
 package com.udacity.asteroidradar
 
+import android.annotation.SuppressLint
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
@@ -41,6 +42,7 @@ fun bindTextViewToDisplayVelocity(textView: TextView, number: Double) {
     val context = textView.context
     textView.text = String.format(context.getString(R.string.km_s_unit_format), number)
 }
+@SuppressLint("SuspiciousIndentation")
 @BindingAdapter("viewItems")
 fun bindRecyclerItems(RecyclerView:RecyclerView,Items:List<Asteroid>?) {
  val adapter = RecyclerView.adapter as asteroidsAdapter
@@ -48,5 +50,5 @@ fun bindRecyclerItems(RecyclerView:RecyclerView,Items:List<Asteroid>?) {
 }
 @BindingAdapter("ImageCache")
 fun bindImageCache(imageView: ImageView,url:String?) {
-Picasso.get().load(url).error(R.drawable.broken_image).into(imageView)
+Picasso.get().load(url).into(imageView)
 }

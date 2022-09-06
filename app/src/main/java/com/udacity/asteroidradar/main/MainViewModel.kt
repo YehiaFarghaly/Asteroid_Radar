@@ -43,7 +43,11 @@ init {
             asteroidRepo.image.value.let { getCachePicture(it!!) }
         }
         catch (e:Exception) {
-            Log.i("yehia","Picture failed")
+            cache.getString("url","")?.let {
+                asteroidRepo.getPicture(it,
+                    cache.getString("title","")!!
+                )
+            }
         }
     }
 }
