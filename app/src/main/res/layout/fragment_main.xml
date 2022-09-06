@@ -28,6 +28,7 @@
                 android:layout_height="match_parent"
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"
+                app:ImageCache="@{viewModel.pictureOfDay.url}"
                 android:contentDescription="@{viewModel.pictureOfDay.title}"
                 app:srcCompat="@drawable/placeholder_picture_of_day"
               />
@@ -51,6 +52,7 @@
             android:layout_height="0dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
+app:viewItems="@{viewModel.asteroid}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"

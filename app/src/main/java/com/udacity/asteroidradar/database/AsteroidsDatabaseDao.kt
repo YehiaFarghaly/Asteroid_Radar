@@ -9,21 +9,21 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface AsteroidsDatabaseDao {
-    @Query("select * from asteroids_table order by closeApproachDate asc")
-    fun getAsteroids():  LiveData<List<AsteroidsDatabase>>
-    @Query("select * from asteroids_table where closeApproachDate = :today order by closeApproachDate asc")
-    fun getTodayAsteroid(today:String):LiveData<List<AsteroidsDatabase>>
-    @Query("select * from asteroids_table where closeApproachDate between :start and :end order by closeApproachDate asc")
-    fun getThisWeekAsteroid(start:String,end:String):LiveData<List<AsteroidsDatabase>>
+    @Query("select * from asteroid_table order by closeApproachDate asc")
+    fun getAsteroids():  LiveData<List<Asteroid>>
+    @Query("select * from asteroid_table where closeApproachDate = :today order by closeApproachDate asc")
+    fun getTodayAsteroid(today:String):LiveData<List<Asteroid>>
+    @Query("select * from asteroid_table where closeApproachDate between :start and :end order by closeApproachDate asc")
+    fun getThisWeekAsteroid(start:String,end:String):LiveData<List<Asteroid>>
     @Insert(onConflict=OnConflictStrategy.REPLACE)
-    fun insertAll(vararg asteroid: AsteroidsDatabase)
-    @Query("delete from asteroids_table where closeApproachDate<:day")
-    fun deleteAsteroid(day:String):Int
+    fun insertAll(asteroid: ArrayList<Asteroid>)
+    @Query("delete from asteroid_table")
+    fun deleteAsteroid()
 }
-@Database(entities = [AsteroidsDatabase::class,PictureOfDay::class], version=2)
+@Database(entities = [Asteroid::class], version=1)
 abstract class AsteroidRoom:RoomDatabase() {
     abstract val asteroidDao:AsteroidsDatabaseDao
-    abstract val pictureDao:PictureOfTheDayDao
+
 }
 private lateinit var INSTANCE:AsteroidRoom
 fun getDatabase(context:Context):AsteroidRoom {

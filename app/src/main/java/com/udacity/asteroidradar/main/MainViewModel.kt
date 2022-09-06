@@ -1,62 +1,56 @@
 package com.udacity.asteroidradar.main
 
-import android.annotation.SuppressLint
 import android.app.Application
+import android.content.Context
+import android.content.SharedPreferences
 import android.util.Log
 import androidx.lifecycle.*
-import androidx.lifecycle.Transformations.map
 import com.udacity.asteroidradar.Asteroid
 import com.udacity.asteroidradar.Clicked
-import com.udacity.asteroidradar.Constants
 import com.udacity.asteroidradar.PictureOfDay
-import com.udacity.asteroidradar.api.AsteroidsAPI
-import com.udacity.asteroidradar.api.toMutableListOfAsteroids
-import com.udacity.asteroidradar.database.AsteroidsDatabase
 import com.udacity.asteroidradar.database.getDatabase
 import com.udacity.asteroidradar.repository.AsteroidsRepo
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-
 
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val database = getDatabase(application)
     private val asteroidRepo = AsteroidsRepo(database)
-    private var clickedState = MutableLiveData(Clicked.All)
-    private val _asteroidsList =
-
-        Transformations.switchMap(clickedState) {
-            when(it) {
-                Clicked.All ->asteroidRepo.asteroids
-                Clicked.ThisWeek -> asteroidRepo.asteroidsThisWeek
-                else -> asteroidRepo.asteroidsToday
-            }
-        }
-    val asteroidsList: LiveData<List<Asteroid>>
-        get() = _asteroidsList
-    private val _picOfTheDay = Transformations.switchMap(MutableLiveData
-        (asteroidRepo.image)) {
-        it
-    }
-    val pictureOfDay: LiveData<PictureOfDay>
-        get() = _picOfTheDay
-
-   fun onItemClicked(item:Clicked) {
-       clickedState.postValue(item)
-   }
-    init {
-                viewModelScope.launch {
+     var clickedState = MutableLiveData(Clicked.All)
+    private var cache:SharedPreferences=application.getSharedPreferences("ImageCache", Context.MODE_PRIVATE)
+    private var picCache:SharedPreferences.Editor=cache.edit()
+    private val _selectAsteroid = MutableLiveData<Asteroid>()
+    val selectAsteroid:LiveData<Asteroid>
+    get()=_selectAsteroid
+    val asteroid = asteroidRepo.asteroids
+    val asteroidToday = asteroidRepo.asteroidsToday
+    val asteroidThisWeek = asteroidRepo.asteroidsThisWeek
+    val pictureOfDay = asteroidRepo.image
+init {
+    Log.i("yehia","viewModel called")
+    viewModelScope.launch {
+        try {
+            Log.i("yehia1","asteroid repo refreshed")
             asteroidRepo.refreshAsteroids()
-            asteroidRepo.refreshPicture()
-                    Log.i("yehiado",_picOfTheDay.value.toString())
+            Log.i("yehia2",asteroid.toString())
         }
-
-
+        catch (e:java.lang.Exception) {
+            Log.i("yehia","asteroid failed")
+        }
+        try {
+            Log.i("yehia1","pictures refreshed")
+            asteroidRepo.refreshPicture()
+            asteroidRepo.image.value.let { getCachePicture(it!!) }
+        }
+        catch (e:Exception) {
+            Log.i("yehia","Picture failed")
+        }
+    }
+}
+    private fun getCachePicture(pictureOfDay: PictureOfDay) {
+        picCache.putString("title",pictureOfDay.title)
+        picCache.putString("url",pictureOfDay.url)
+        picCache.apply()
     }
 
 

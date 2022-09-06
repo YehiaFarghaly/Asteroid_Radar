@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.os.Build
 import com.udacity.asteroidradar.Asteroid
 import com.udacity.asteroidradar.Constants
-import com.udacity.asteroidradar.database.AsteroidsDatabase
 import org.json.JSONObject
 import java.text.SimpleDateFormat
 import java.util.*
@@ -64,39 +63,7 @@ private fun getNextSevenDaysFormattedDates(): ArrayList<String> {
 
     return formattedDateList
 }
-fun List<AsteroidsDatabase>.toMutableListOfAsteroids():MutableList<Asteroid> {
-    return map {
-        Asteroid(
-            id = it.id,
-            codename = it.codeName,
-            estimatedDiameter = it.estimatedDiameter,
-            relativeVelocity = it.relativeVelocity,
-            closeApproachDate = it.closeApproachDate,
-            absoluteMagnitude = it.absoluteMagnitude,
-            isPotentiallyHazardous = it.isPotentiallyHazardous,
-            distanceFromEarth = it.distanceFromEarth
-        )
 
-    }.toMutableList()
-}
-
-fun ArrayList<Asteroid>.toArrOfDatabase():Array<AsteroidsDatabase> {
- return map {
-     AsteroidsDatabase(
-         id = it.id,
-         codeName = it.codename,
-         estimatedDiameter = it.estimatedDiameter,
-         relativeVelocity = it.relativeVelocity,
-         closeApproachDate = it.closeApproachDate,
-         absoluteMagnitude = it.absoluteMagnitude,
-         isPotentiallyHazardous = it.isPotentiallyHazardous,
-         distanceFromEarth = it.distanceFromEarth
-         )
-
- }.toTypedArray()
-
-
-}
 
 
 fun getDateFormated(date:Date):String {

@@ -29,18 +29,30 @@ class MainFragment : Fragment() {
         binding.asteroidRecycler.adapter=adapter
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
-        viewModel.asteroidsList.observe(this as LifecycleOwner, Observer {
-     it?.let {
-         adapter.submitList(it)
-     }
-        })
+
 
         setHasOptionsMenu(true)
-Log.i("yehiaso",viewModel.pictureOfDay.value.toString())
-        var pictureImage:ImageView = binding.activityMainImageOfTheDay
-viewModel.pictureOfDay.observe(this as LifecycleOwner, Observer {
-    Picasso.get().load(it.url).into(pictureImage)
-})
+
+viewModel.clickedState.observe(viewLifecycleOwner){
+    when(it) {
+        Clicked.Today -> viewModel.asteroidToday.observe(viewLifecycleOwner) {
+            asteroid-> asteroid.apply {
+                adapter.submitList(this)
+        }
+        }
+        Clicked.ThisWeek -> viewModel.asteroidThisWeek.observe(viewLifecycleOwner) {
+            asteroid->asteroid.apply {
+                adapter.submitList(this)
+        }
+        }
+        else -> viewModel.asteroid.observe(viewLifecycleOwner) {
+                asteroid->asteroid.apply {
+            adapter.submitList(this)
+        }
+        }
+    }
+}
+
 
         return binding.root
     }
@@ -52,13 +64,12 @@ viewModel.pictureOfDay.observe(this as LifecycleOwner, Observer {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        viewModel.onItemClicked(
+        viewModel.clickedState.value =
             when(item.itemId) {
                 R.id.show_all_menu-> Clicked.All
                 R.id.show_today_menu -> Clicked.Today
                 else -> Clicked.ThisWeek
             }
-        )
         return true
     }
 }
