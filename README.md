@@ -1,4 +1,4 @@
-# Project Instruction
+# Project Details
 
 You are provided with a starter code in our github repo, which includes the necessary dependencies and plugins that you need to complete this project.
 
