@@ -2,7 +2,7 @@
 
 You are provided with a starter code in our github repo, which includes the necessary dependencies and plugins that you need to complete this project.
 
-## Summarized tasks:
+## Screenshots:
 The application you will build must:
 
 Include Main screen with a list of clickable asteroids as seen in the provided design using a RecyclerView with its adapter. You could insert some fake manually created asteroids to try this before downloading any data.
