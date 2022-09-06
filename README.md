@@ -1,6 +1,17 @@
-# Project Details
+# Skills Used:
 
-You are provided with a starter code in our github repo, which includes the necessary dependencies and plugins that you need to complete this project.
+```
+1) MVVM Design pattern.
+2) Room database.
+3) Navigation using fragment.
+4) Single Activity architecture.
+5) Recycler View.
+6) Access network using Retrofit library and storing the data in local data base so the entire application works offline.
+7) Download Image using Picasso library
+8) Two way data binding
+9) Optimize background work using Work manager
+10) Parse Json files using Moshi builder
+```
 
 ## Screenshots:
 The application you will build must:
