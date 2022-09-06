@@ -12,6 +12,7 @@
 9) Optimize background work using Work manager
 10) Parse Json files using Moshi builder
 ```
+## You can download the apk from here : [Asteroid Radar](https://github.com/YehiaFarghaly/Asteroid_Radar/releases/download/Asteroid_Radar_App/app-debug.apk).
 
 ## Screenshots:
 Hazard Asteroid            |  Main Screen              | Non Hazard Asteroid
